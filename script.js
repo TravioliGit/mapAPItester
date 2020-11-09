@@ -18,26 +18,35 @@ async function initMap() {
     }
 }
 
+
 //function to initialise map on form adapted from https://developers.google.com/maps/documentation/javascript/adding-a-google-map#maps_add_map-javascript
 function showMap(data) {
-    //initialise map on webpage
-    const map = new google.maps.Map(document.querySelector('#map'), {
-        zoom: 4
-    });
-    console.log(map);
-    console.log(data[0].lat);
-    //loop to iterate through obtained data
-    // for (const items in data) {
-    //     let location = [data[items].lat, data[items].lng];
-    //     let name = data[items].name;
-    //     let marker = new google.maps.Marker({
-    //         position: location,
-    //         name: name,
-    //         map: map
-    //     });
-    // }
-    
-    const marker2 = new google.maps.Marker({
+    //maths to find the midpoint between the two given coordinates
+    //adapted from and found at http://jsfiddle.net/kevinrignault/gzq64p56/
+    const dLng = (data[1].lon - data[0].lon) *Math.PI/180;
 
+    let lat1 = data[0].lat *Math.PI/180;
+    let lat2 = data[1].lat *Math.PI/180;
+    let lng1 = data[0].lon *Math.PI/180;
+
+    let bX = Math.cos(lat2) * Math.cos(dLng);
+    let bY = Math.cos(lat2) * Math.sin(dLng);
+    let lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + bX) * (Math.cos(lat1) + bX) + bY * bY));
+    let lng3 = lng1 + Math.atan2(bY, Math.cos(lat1) + bX);
+
+    //initialise map on webpage
+    let location = new google.maps.LatLng(data[0].lat, data[0].lon);
+    let map = new google.maps.Map(document.getElementById('map'), {
+        center: location,
+        zoom: 14
     });
+    
+    //loop to iterate through obtained data and place the markers on the map
+    for (const items in data) {
+        let location = new google.maps.LatLng(data[items].lat, data[items].lon);
+        let marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
 }
