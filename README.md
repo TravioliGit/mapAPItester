@@ -1,1 +1,1 @@
-# mapAPItester
+# Demonstration code for Mapping project
