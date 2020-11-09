@@ -1,6 +1,6 @@
 /* code adapted from google's developer website: https://developers.google.com/maps/documentation/javascript/adding-a-google-map#maps_add_map-css*/
 #map {
-    height: 80%;
+    height: 100%;
     /* The height is 400 pixels */
     width: 100%;
     /* The width is the width of the web page */
